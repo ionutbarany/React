@@ -1,120 +1,72 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
+import { useCallback, useMemo, useState } from 'react'
+import { DataTable } from './components/DataTable.tsx'
+import { calcularDiferenciaDias } from './utils/diferenciaDias.ts'
 import './App.css'
 
+type Estudiante = {
+  id: number
+  nombre: string
+  carrera: string
+}
+
 function App() {
-  const [count, setCount] = useState(0)
+  const [estudiantes, setEstudiantes] = useState<Estudiante[]>([
+    { id: 1, nombre: 'Ana López', carrera: 'Informática' },
+    { id: 2, nombre: 'Luis Pérez', carrera: 'Derecho' },
+    { id: 3, nombre: 'Marta Ruiz', carrera: 'Medicina' },
+  ])
+
+  const columnas = useMemo(
+    () =>
+      [
+        { key: 'id' as const, header: 'ID' },
+        { key: 'nombre' as const, header: 'Nombre' },
+        { key: 'carrera' as const, header: 'Carrera' },
+      ] as const,
+    [],
+  )
+
+  const onSaveFila = useCallback((index: number, mergedRow: Estudiante) => {
+    setEstudiantes((prev) => {
+      const next = [...prev]
+      next[index] = mergedRow
+      return next
+    })
+  }, [])
+
+  const inicioCurso = useMemo(() => new Date(2026, 2, 10), [])
+  const hoy = useMemo(() => new Date(2026, 3, 10), [])
+  const diasDesdeInicio = calcularDiferenciaDias(inicioCurso, hoy)
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
+    <main className="app-lab">
+      <header className="lab-header">
+        <h1>Laboratorio: UI tipada y documentación</h1>
+        <p>
+          Tabla genérica con edición parcial (<code>Partial&lt;T&gt;</code>) y
+          diferencia de días con <code>date-fns</code>.
+        </p>
+      </header>
+
+      <section className="lab-panel" aria-labelledby="tabla-title">
+        <h2 id="tabla-title">DataTable genérico</h2>
+        <DataTable<Estudiante>
+          data={estudiantes}
+          columns={[...columnas]}
+          getRowKey={(row) => row.id}
+          onSave={onSaveFila}
+        />
       </section>
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
+      <section className="lab-panel" aria-labelledby="fechas-title">
+        <h2 id="fechas-title">Diferencia en días</h2>
+        <p>
+          Entre el 10 mar 2026 y el 10 abr 2026 hay{' '}
+          <strong>{diasDesdeInicio}</strong> días (
+          <code>calcularDiferenciaDias</code> + date-fns).
+        </p>
       </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+    </main>
   )
 }
 

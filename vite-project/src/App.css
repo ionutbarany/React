@@ -1,3 +1,106 @@
+.app-lab {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 32px 20px 48px;
+  text-align: left;
+}
+
+.lab-header h1 {
+  font-family: var(--heading);
+  color: var(--text-h);
+  font-size: 1.65rem;
+  margin: 0 0 12px;
+  letter-spacing: -0.02em;
+}
+
+.lab-header p {
+  margin: 0 0 28px;
+  max-width: 65ch;
+}
+
+.lab-panel {
+  margin-bottom: 32px;
+  padding: 20px 22px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--bg) 92%, var(--code-bg));
+  box-shadow: var(--shadow);
+}
+
+.lab-panel h2 {
+  font-family: var(--heading);
+  color: var(--text-h);
+  font-size: 1.15rem;
+  margin: 0 0 16px;
+}
+
+.data-table-wrap {
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.data-table th,
+.data-table td {
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.data-table thead th {
+  background: var(--code-bg);
+  color: var(--text-h);
+  font-weight: 600;
+}
+
+.data-table-actions {
+  white-space: nowrap;
+  width: 1%;
+}
+
+.data-table-input {
+  width: 100%;
+  min-width: 120px;
+  box-sizing: border-box;
+  font: inherit;
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text-h);
+}
+
+.data-table-btn {
+  font: inherit;
+  font-size: 0.88rem;
+  padding: 6px 12px;
+  margin-right: 8px;
+  border-radius: 6px;
+  border: 2px solid var(--accent-border);
+  background: var(--accent-bg);
+  color: var(--accent);
+  cursor: pointer;
+}
+
+.data-table-btn.ghost {
+  border-color: var(--border);
+  background: transparent;
+  color: var(--text-h);
+}
+
+.data-table-btn:hover {
+  border-color: var(--accent);
+}
+
+.data-table-btn.ghost:hover {
+  border-color: var(--text-h);
+}
+
 .counter {
   font-size: 16px;
   padding: 5px 10px;
